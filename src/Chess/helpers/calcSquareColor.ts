@@ -1,5 +1,12 @@
 import { whiteKing } from "../constants/asciis";
 import { blackKing } from "../constants/asciis";
+import {
+  blackSquare,
+  highlightedSquare,
+  inCheckSquare,
+  selectedSquare,
+  whiteSquare,
+} from "../constants/squares";
 
 export default function calcSquareColor(
   i: number,
@@ -12,20 +19,20 @@ export default function calcSquareColor(
 
   let squareColor =
     (isEven(i) && isEven(j)) || (!isEven(i) && !isEven(j))
-      ? "white_square"
-      : "black_square";
+      ? whiteSquare
+      : blackSquare;
 
   if (squares[i * 8 + j].highlight) {
-    squareColor = "selected_square";
+    squareColor = selectedSquare;
   }
 
   if (squares[i * 8 + j].possible) {
-    squareColor = "highlighted_square";
+    squareColor = highlightedSquare;
   }
 
   if (squares[i * 8 + j].ascii !== null && isKing) {
     if (squares[i * 8 + j].inCheck) {
-      squareColor = "in_check_square";
+      squareColor = inCheckSquare;
     }
   }
 
