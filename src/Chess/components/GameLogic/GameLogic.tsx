@@ -33,8 +33,8 @@ import styles from "../../Game.module.css";
 import blockersExist from "../../helpers/blockerExist";
 import canEnpassant from "../../helpers/canEnpassant";
 
-export default function Board() {
-  const [squares, setSquares] = useState(initializeBoard());
+export default function Board(): any {
+  const [squares, setSquares] = useState<any>(initializeBoard());
   const [source, setSource] = useState(-1);
   const [turn, setTurn] = useState(white);
   const [trueTurn, setTrueTurn] = useState(white);
@@ -48,10 +48,10 @@ export default function Board() {
   const [passantPosition, setPassantPosition] = useState(65);
   const [history, setHistory] = useState([initializeBoard()]);
   const [historyNum, setHistoryNum] = useState(1);
-  const [historyH1, setHistoryH1] = useState([null]);
-  const [historyH2, setHistoryH2] = useState([null]);
-  const [historyH3, setHistoryH3] = useState([null]);
-  const [historyH4, setHistoryH4] = useState([null]);
+  const [historyH1, setHistoryH1] = useState<any>([null]);
+  const [historyH2, setHistoryH2] = useState<any>([null]);
+  const [historyH3, setHistoryH3] = useState<any>([null]);
+  const [historyH4, setHistoryH4] = useState<any>([null]);
   const [mated, setMated] = useState(false);
 
   const reset = () => {
@@ -77,7 +77,12 @@ export default function Board() {
     setMated(false);
   };
 
-  const executeMove = (player, squares, start, end) => {
+  const executeMove = (
+    player: any,
+    squares: any[],
+    start: number,
+    end: number
+  ) => {
     let copySquares = squares.slice();
 
     copySquares = clearHighlight(copySquares);
@@ -192,7 +197,7 @@ export default function Board() {
     setTrueTurn(player === black ? white : black);
   };
 
-  const makeMove = (squares, start, end, passantPos) => {
+  const makeMove = (squares: any, start: any, end: any, passantPos?: any) => {
     const copySquares = squares.slice();
     let isKing =
       copySquares[start].ascii === whiteKing ||
@@ -263,7 +268,12 @@ export default function Board() {
     return copySquares;
   };
 
-  const isInvalidMove = (start, end, squares, passantPos) => {
+  const isInvalidMove = (
+    start: number,
+    end: any,
+    squares: any,
+    passantPos?: number
+  ) => {
     const copySquares = squares.slice();
     let bqrpk =
       copySquares[start].ascii === whiteRook ||
@@ -302,7 +312,12 @@ export default function Board() {
     return invalid;
   };
 
-  const isMoveAvailable = (start, end, squares, passantPos) => {
+  const isMoveAvailable = (
+    start: number,
+    end: number,
+    squares: any[],
+    passantPos?: number
+  ) => {
     const copySquares = squares.slice();
     if (start === end) return false;
 
@@ -348,7 +363,7 @@ export default function Board() {
     return true;
   };
 
-  const isCheck = (player, squares) => {
+  const isCheck = (player: any, squares: any[]) => {
     let king = player === white ? whiteKing : blackKing;
     let positionOfKing = null;
     const copySquares = squares.slice();
@@ -371,7 +386,7 @@ export default function Board() {
     return false;
   };
 
-  const stalemate = (player, squares) => {
+  const stalemate = (player: any, squares: any[]) => {
     if (isCheck(player, squares)) return false;
 
     for (let i = 0; i < 64; i++) {
@@ -384,7 +399,7 @@ export default function Board() {
     return true;
   };
 
-  const checkmate = (player, squares) => {
+  const checkmate = (player: any, squares: any[]) => {
     if (!isCheck(player, squares)) return false;
     for (let i = 0; i < 64; i++) {
       if (squares[i].player === player) {
@@ -396,7 +411,7 @@ export default function Board() {
     return true;
   };
 
-  const handleClick = (i) => {
+  const handleClick = (i: number) => {
     let copySquares = squares.slice();
 
     if (historyNum - 1 !== turnNum) {
@@ -481,7 +496,7 @@ export default function Board() {
     board.push(<div key={i + 64}>{squareRows}</div>);
   }
 
-  const viewHistory = (direction) => {
+  const viewHistory = (direction: any) => {
     let copySquares = null;
 
     if (direction === backAtw) {

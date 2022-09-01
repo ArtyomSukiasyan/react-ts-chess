@@ -1,7 +1,7 @@
 import { blackPawn, whitePawn } from "../constants/asciis";
 import { black, white } from "../constants/players";
 
-export default function canEnpassant(start: number, end: number, squares: any[], statePassantPos: number, passantPos: number): boolean {
+export default function canEnpassant(start: number, end: number, squares: any[], statePassantPos: number, passantPos: any): boolean {
     let passant = passantPos === undefined ? statePassantPos : passantPos;
     let startRow = 8 - Math.floor(start / 8);
     let startCol = (start % 8) + 1;

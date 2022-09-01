@@ -2,8 +2,8 @@ import { white } from "../constants/players";
 import { whiteKing, blackKing } from "../constants/asciis";
 
 export default function clearCheckHighlight(
-  squares: any[],
-  player: "white" | "black"
+  squares: any,
+  player: any
 ): any[] | void {
   const copySquares = squares.slice();
   

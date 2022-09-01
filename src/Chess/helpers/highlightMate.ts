@@ -2,7 +2,7 @@ import { white } from "../constants/players";
 import { whiteKing, blackKing } from "../constants/asciis";
 
 export default function highlightMate(
-  player: "white" | "black",
+  player: any,
   squares: any[],
   checkMated: boolean,
   staleMated: boolean
