@@ -484,7 +484,6 @@ export default function Board(): any {
 
       squareRows.push(
         <Square
-          id={i * 8 + j}
           value={copySquares[i * 8 + j]}
           color={squareColor}
           cursor={squareCursor}

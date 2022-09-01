@@ -1,15 +1,14 @@
 import styles from "../../Game.module.css";
+import { ISquare } from "../../models/Square";
 
 export default function Square({
-  id,
   value,
   color,
   cursor,
   onClick,
-}: any): any {
+}: ISquare): any {
   return (
     <div
-      key={id}
       className={`${styles.square} ${styles[color]} ${cursor}`}
       onClick={onClick}
     >
