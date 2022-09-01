@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+import { IMatchInfo } from "../../models/Matchinfo";
 import styles from "../../Game.module.css";
 
 export default function MatchInfo({
@@ -6,7 +8,7 @@ export default function MatchInfo({
   reset,
   next,
   nextAtw,
-}: any): any {
+}: IMatchInfo): ReactElement {
   return (
     <div className={styles.side_box}>
       <div className={styles.button_wrapper}>
