@@ -7,8 +7,9 @@ import Knight from "../pieces/Knight/Knight";
 import Pawn from "../pieces/Pawn/Pawn";
 import { white, black } from "../constants/players";
 
-export default function initializeBoard() {
+export default function initializeBoard(): any[] {
   const squares = Array(64).fill(null);
+
   for (let i = 8; i < 16; i++) {
     squares[i] = new Pawn(black);
   }
@@ -42,7 +43,9 @@ export default function initializeBoard() {
   squares[56 + 4] = new King(white);
 
   for (let i = 0; i < 64; i++) {
-    if (squares[i] === null) squares[i] = new Piece(null);
+    if (squares[i] === null) {
+      squares[i] = new Piece(null);
+    }
   }
 
   return squares;
