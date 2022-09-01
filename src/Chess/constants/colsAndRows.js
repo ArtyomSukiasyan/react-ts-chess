@@ -8,6 +8,7 @@ for (let i = 8; i > 0; i--) {
 export const colNums = [];
 for (let i = 1; i < 9; i++) {
   let letter;
+  
   switch (i) {
     case 1:
       letter = "A";
@@ -36,5 +37,6 @@ for (let i = 1; i < 9; i++) {
     default:
       break;
   }
+
   colNums.push(<Notation key={letter} value={letter} />);
 }
