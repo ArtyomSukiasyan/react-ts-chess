@@ -1,5 +1,11 @@
 export default class FillerPiece {
-  constructor(player) {
+  player: any;
+  highlight: boolean;
+  possible: boolean;
+  icon: any;
+  ascii: any;
+
+  constructor(player: any) {
     this.player = player;
     this.highlight = false;
     this.possible = false;
@@ -7,7 +13,7 @@ export default class FillerPiece {
     this.ascii = null;
   }
 
-  canMove(start, end) {
+  canMove(): boolean {
     return false;
   }
 }
