@@ -1,9 +1,7 @@
-import Game from "./Chess/Game"
+import Game from "./Chess/Game";
 
 function App() {
-  return (
-   <Game />
-  );
+  return <Game />;
 }
 
 export default App;
