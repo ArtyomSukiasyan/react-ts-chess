@@ -1,14 +1,14 @@
 import Notation from "../helpers/notation";
 
-export const rowNums = [];
+export const rowNums: any = [];
 for (let i = 8; i > 0; i--) {
   rowNums.push(<Notation key={i} value={i} />);
 }
 
-export const colNums = [];
+export const colNums: any = [];
 for (let i = 1; i < 9; i++) {
   let letter;
-  
+
   switch (i) {
     case 1:
       letter = "A";
