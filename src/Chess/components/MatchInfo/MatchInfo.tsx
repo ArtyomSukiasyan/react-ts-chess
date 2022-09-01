@@ -1,6 +1,12 @@
 import styles from "../../Game.module.css";
 
-export default function MatchInfo({ backAtw, back, reset, next, nextAtw }) {
+export default function MatchInfo({
+  backAtw,
+  back,
+  reset,
+  next,
+  nextAtw,
+}: any): any {
   return (
     <div className={styles.side_box}>
       <div className={styles.button_wrapper}>
