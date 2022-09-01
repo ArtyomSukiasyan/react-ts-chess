@@ -1,6 +1,12 @@
 import styles from "../../Game.module.css";
 
-export default function Square({ id, value, color, cursor, onClick }) {
+export default function Square({
+  id,
+  value,
+  color,
+  cursor,
+  onClick,
+}: any): any {
   return (
     <div
       key={id}
