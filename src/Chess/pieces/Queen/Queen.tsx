@@ -3,7 +3,13 @@ import { whiteQueen, blackQueen } from "../../constants/asciis";
 import styles from "../../Game.module.css";
 
 export default class Queen {
-  constructor(player) {
+  player: any;
+  highlight: boolean;
+  possible: boolean;
+  icon: any;
+  ascii: any;
+
+  constructor(player: any) {
     this.player = player;
     this.highlight = false;
     this.possible = false;
@@ -17,7 +23,7 @@ export default class Queen {
     this.ascii = player === white ? whiteQueen : blackQueen;
   }
 
-  canMove(start, end) {
+  canMove(start: number, end: number): boolean {
     const startRow = 8 - Math.floor(start / 8);
     const startCol = (start % 8) + 1;
     const endRow = 8 - Math.floor(end / 8);
