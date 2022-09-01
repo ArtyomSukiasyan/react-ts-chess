@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { IMatchInfo } from "../../models/Matchinfo";
 import styles from "../../Game.module.css";
+import Button from "./Button";
 
 export default function MatchInfo({
   backAtw,
@@ -12,21 +13,11 @@ export default function MatchInfo({
   return (
     <div className={styles.side_box}>
       <div className={styles.button_wrapper}>
-        <button className={styles.button} onClick={backAtw}>
-          <p>&lt;&lt;</p>
-        </button>
-        <button className={styles.button} onClick={back}>
-          <p>&lt;</p>
-        </button>
-        <button className={styles.button} onClick={reset}>
-          <p>Restart</p>
-        </button>
-        <button className={styles.button} onClick={next}>
-          <p>&gt;</p>
-        </button>
-        <button className={styles.button} onClick={nextAtw}>
-          <p>&gt;&gt;</p>
-        </button>
+        <Button text="&lt;&lt;" onClick={backAtw} />
+        <Button text="&lt;" onClick={back} />
+        <Button text="Restart" onClick={reset} />
+        <Button text="&gt;" onClick={next} />
+        <Button text="&gt;&gt;" onClick={nextAtw} />
       </div>
     </div>
   );
