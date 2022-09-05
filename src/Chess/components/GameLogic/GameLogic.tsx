@@ -4,9 +4,7 @@ import Queen from "../../pieces/Queen/Queen";
 import Rook from "../../pieces/Rook/Rook";
 import Bishop from "../../pieces/Bishop/Bishop";
 import Knight from "../../pieces/Knight/Knight";
-import Square from "../Squares/Squares";
 import MatchInfo from "../MatchInfo/MatchInfo";
-import calcSquareColor from "../../helpers/calcSquareColor";
 import clearHighlight from "../../helpers/clearHighlight";
 import clearPossibleHighlight from "../../helpers/clearPossibleHighlight";
 import highlightMate from "../../helpers/highlightMate";
@@ -32,6 +30,7 @@ import { next, back, nextAtw, backAtw } from "../../constants/histories";
 import styles from "../../Game.module.css";
 import blockersExist from "../../helpers/blockerExist";
 import canEnpassant from "../../helpers/canEnpassant";
+import MakeBoard from "../../helpers/makeBoard";
 
 export default function Board(): any {
   const [squares, setSquares] = useState<any>(initializeBoard());
@@ -486,71 +485,7 @@ export default function Board(): any {
     }
   };
 
-  const board = [];
-
-  if (isWhite) {
-    for (let i = 0; i < 8; i++) {
-      const squareRows = [];
-      for (let j = 0; j < 8; j++) {
-        const copySquares = squares.slice();
-        let squareColor = calcSquareColor(i, j, copySquares);
-        let squareCursor = styles.pointer;
-        if (copySquares[i * 8 + j].player !== turn) {
-          squareCursor = styles.default;
-        }
-
-        if (mated) {
-          squareCursor = styles.default;
-        }
-
-        if (historyNum - 1 !== turnNum) {
-          squareCursor = styles.not_allowed;
-        }
-
-        squareRows.push(
-          <Square
-            value={copySquares[i * 8 + j]}
-            color={squareColor}
-            cursor={squareCursor}
-            onClick={() => handleClick(i * 8 + j)}
-            key={i * 8 + j}
-          />
-        );
-      }
-      board.push(<div key={i + 64}>{squareRows}</div>);
-    }
-  } else {
-    for (let i = 7; i >= 0; i--) {
-      const squareRows = [];
-      for (let j = 7; j >= 0; j--) {
-        const copySquares = squares.slice();
-        let squareColor = calcSquareColor(i, j, copySquares);
-        let squareCursor = styles.pointer;
-        if (copySquares[i * 8 + j].player !== turn) {
-          squareCursor = styles.default;
-        }
-
-        if (mated) {
-          squareCursor = styles.default;
-        }
-
-        if (historyNum - 1 !== turnNum) {
-          squareCursor = styles.not_allowed;
-        }
-
-        squareRows.push(
-          <Square
-            value={copySquares[i * 8 + j]}
-            color={squareColor}
-            cursor={squareCursor}
-            onClick={() => handleClick(i * 8 + j)}
-            key={i * 8 + j}
-          />
-        );
-      }
-      board.push(<div key={i + 64}>{squareRows}</div>);
-    }
-  }
+  const board = MakeBoard(isWhite, squares, turn, mated, historyNum, turnNum, handleClick);
 
   const viewHistory = (direction: any) => {
     let copySquares = null;
