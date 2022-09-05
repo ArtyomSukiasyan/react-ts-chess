@@ -31,6 +31,7 @@ import styles from "../../Game.module.css";
 import blockersExist from "../../helpers/blockerExist";
 import canEnpassant from "../../helpers/canEnpassant";
 import MakeBoard from "../../helpers/makeBoard";
+import checkStaleMate from "../../helpers/checkStaleMate";
 
 export default function Board(): any {
   const [squares, setSquares] = useState<any>(initializeBoard());
@@ -140,14 +141,14 @@ export default function Board(): any {
         black,
         copySquares,
         checkmate(black, copySquares),
-        stalemate(black, copySquares)
+        checkStaleMate(black, copySquares, isCheck, isMoveAvailable)
       );
     } else {
       copySquares = highlightMate(
         white,
         copySquares,
         checkmate(white, copySquares),
-        stalemate(white, copySquares)
+        checkStaleMate(white, copySquares, isCheck, isMoveAvailable)
       );
     }
 
@@ -179,8 +180,10 @@ export default function Board(): any {
     let checkMated =
       checkmate(white, copySquares) || checkmate(black, copySquares);
     let staleMated =
-      (stalemate(white, copySquares) && player === black) ||
-      (stalemate(black, copySquares) && player === white);
+      (checkStaleMate(white, copySquares, isCheck, isMoveAvailable) &&
+        player === black) ||
+      (checkStaleMate(black, copySquares, isCheck, isMoveAvailable) &&
+        player === white);
 
     setPassantPosition(passant);
     setHistory(copyHistory);
@@ -396,19 +399,6 @@ export default function Board(): any {
     return false;
   };
 
-  const stalemate = (player: any, squares: any[]) => {
-    if (isCheck(player, squares)) return false;
-
-    for (let i = 0; i < 64; i++) {
-      if (squares[i].player === player) {
-        for (let j = 0; j < 64; j++) {
-          if (isMoveAvailable(i, j, squares)) return false;
-        }
-      }
-    }
-    return true;
-  };
-
   const checkmate = (player: any, squares: any[]) => {
     if (!isCheck(player, squares)) return false;
     for (let i = 0; i < 64; i++) {
@@ -485,7 +475,15 @@ export default function Board(): any {
     }
   };
 
-  const board = MakeBoard(isWhite, squares, turn, mated, historyNum, turnNum, handleClick);
+  const board = MakeBoard(
+    isWhite,
+    squares,
+    turn,
+    mated,
+    historyNum,
+    turnNum,
+    handleClick
+  );
 
   const viewHistory = (direction: any) => {
     let copySquares = null;
@@ -510,7 +508,9 @@ export default function Board(): any {
       }
     }
 
-    let stale = stalemate(trueTurn, copySquares) && turn !== trueTurn;
+    let stale =
+      checkStaleMate(trueTurn, copySquares, isCheck, isMoveAvailable) &&
+      turn !== trueTurn;
     copySquares = highlightMate(
       trueTurn,
       copySquares,
