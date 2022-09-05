@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import FillerPiece from "../../pieces/FillerPiece/FillerPiece";
 import Queen from "../../pieces/Queen/Queen";
 import Rook from "../../pieces/Rook/Rook";
@@ -9,7 +9,6 @@ import clearHighlight from "../../helpers/clearHighlight";
 import clearPossibleHighlight from "../../helpers/clearPossibleHighlight";
 import highlightMate from "../../helpers/highlightMate";
 import clearCheckHighlight from "../../helpers/clearCheckHighlight";
-import castlingAllowed from "../../helpers/castlingAllowed";
 import { colNums, rowNums } from "../../constants/colsAndRows";
 import { white, black } from "../../constants/players";
 import initializeBoard from "../../helpers/initializeBoard";
@@ -17,21 +16,16 @@ import initializeBoard from "../../helpers/initializeBoard";
 import {
   whiteKing,
   blackKing,
-  whiteQueen,
-  blackQueen,
   whiteRook,
   blackRook,
-  whiteBishop,
-  blackBishop,
   whitePawn,
   blackPawn,
 } from "../../constants/asciis";
 import { next, back, nextAtw, backAtw } from "../../constants/histories";
 import styles from "../../Game.module.css";
-import blockersExist from "../../helpers/blockerExist";
-import canEnpassant from "../../helpers/canEnpassant";
 import MakeBoard from "../../helpers/makeBoard";
 import checkStaleMate from "../../helpers/checkStaleMate";
+import checkInvalidMove from "../../helpers/checkInvalidMove";
 
 export default function Board(): any {
   const [squares, setSquares] = useState<any>(initializeBoard());
@@ -271,60 +265,6 @@ export default function Board(): any {
     return copySquares;
   };
 
-  const isInvalidMove = (
-    start: number,
-    end: any,
-    squares: any,
-    passantPos?: number
-  ) => {
-    const copySquares = squares.slice();
-    let bqrpk =
-      copySquares[start].ascii === whiteRook ||
-      copySquares[start].ascii === blackRook ||
-      copySquares[start].ascii === whiteQueen ||
-      copySquares[start].ascii === blackQueen ||
-      copySquares[start].ascii === whiteBishop ||
-      copySquares[start].ascii === blackBishop ||
-      copySquares[start].ascii === whitePawn ||
-      copySquares[start].ascii === blackPawn ||
-      copySquares[start].ascii === whiteKing ||
-      copySquares[start].ascii === blackKing;
-    let invalid = bqrpk && blockersExist(start, end, copySquares);
-
-    if (invalid) {
-      return invalid;
-    }
-
-    let pawn =
-      copySquares[start].ascii === whitePawn ||
-      copySquares[start].ascii === blackPawn;
-    invalid =
-      pawn &&
-      !canEnpassant(start, end, copySquares, passantPosition, passantPos);
-
-    if (invalid) {
-      return invalid;
-    }
-
-    let king = copySquares[start].ascii.toLowerCase() === whiteKing;
-
-    if (king && Math.abs(end - start) === 2) {
-      invalid = !castlingAllowed(
-        start,
-        end,
-        copySquares,
-        whiteKingHasMoved,
-        blackKingHasMoved,
-        rightWhiteRookHasMoved,
-        leftWhiteRookHasMoved,
-        rightBlackRookHasMoved,
-        leftBlackRookHasMoved
-      );
-    }
-
-    return invalid;
-  };
-
   const isMoveAvailable = (
     start: number,
     end: number,
@@ -340,7 +280,22 @@ export default function Board(): any {
       !copySquares[start].canMove(start, end)
     )
       return false;
-    if (isInvalidMove(start, end, copySquares, passantPos)) return false;
+    if (
+      checkInvalidMove(
+        start,
+        end,
+        copySquares,
+        passantPosition,
+        whiteKingHasMoved,
+        blackKingHasMoved,
+        rightWhiteRookHasMoved,
+        leftWhiteRookHasMoved,
+        rightBlackRookHasMoved,
+        leftBlackRookHasMoved,
+        passantPos
+      )
+    )
+      return false;
 
     let cantCastle =
       copySquares[start].ascii === (player === white ? whiteKing : blackKing) &&
@@ -391,7 +346,18 @@ export default function Board(): any {
       if (copySquares[i].player !== player) {
         if (
           copySquares[i].canMove(i, positionOfKing) &&
-          !isInvalidMove(i, positionOfKing, copySquares)
+          !checkInvalidMove(
+            i,
+            positionOfKing,
+            copySquares,
+            passantPosition,
+            whiteKingHasMoved,
+            blackKingHasMoved,
+            rightWhiteRookHasMoved,
+            leftWhiteRookHasMoved,
+            rightBlackRookHasMoved,
+            leftBlackRookHasMoved
+          )
         )
           return true;
       }
