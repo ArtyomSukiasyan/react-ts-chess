@@ -477,10 +477,17 @@ export default function Board(): any {
       const copySquares = squares.slice();
       let squareColor = calcSquareColor(i, j, copySquares);
       let squareCursor = styles.pointer;
-      if (copySquares[i * 8 + j].player !== turn) squareCursor = styles.default;
+      if (copySquares[i * 8 + j].player !== turn) {
+        squareCursor = styles.default;
+      }
 
-      if (mated) squareCursor = styles.default;
-      if (historyNum - 1 !== turnNum) squareCursor = styles.not_allowed;
+      if (mated) {
+        squareCursor = styles.default;
+      }
+
+      if (historyNum - 1 !== turnNum) {
+        squareCursor = styles.not_allowed;
+      }
 
       squareRows.push(
         <Square
