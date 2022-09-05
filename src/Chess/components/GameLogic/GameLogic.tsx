@@ -53,6 +53,7 @@ export default function Board(): any {
   const [historyH3, setHistoryH3] = useState<any>([null]);
   const [historyH4, setHistoryH4] = useState<any>([null]);
   const [mated, setMated] = useState(false);
+  const [isWhite, setIsWhite] = useState(true);
 
   const reset = () => {
     clearHighlight(squares);
@@ -287,16 +288,25 @@ export default function Board(): any {
       copySquares[start].ascii === whiteKing ||
       copySquares[start].ascii === blackKing;
     let invalid = bqrpk && blockersExist(start, end, copySquares);
-    if (invalid) return invalid;
+
+    if (invalid) {
+      return invalid;
+    }
+
     let pawn =
       copySquares[start].ascii === whitePawn ||
       copySquares[start].ascii === blackPawn;
     invalid =
       pawn &&
       !canEnpassant(start, end, copySquares, passantPosition, passantPos);
-    if (invalid) return invalid;
+
+    if (invalid) {
+      return invalid;
+    }
+
     let king = copySquares[start].ascii.toLowerCase() === whiteKing;
-    if (king && Math.abs(end - start) === 2)
+
+    if (king && Math.abs(end - start) === 2) {
       invalid = !castlingAllowed(
         start,
         end,
@@ -308,6 +318,7 @@ export default function Board(): any {
         rightBlackRookHasMoved,
         leftBlackRookHasMoved
       );
+    }
 
     return invalid;
   };
@@ -418,18 +429,23 @@ export default function Board(): any {
       return null;
     }
 
-    if (mated) return null;
+    if (mated) {
+      return null;
+    }
 
     if (source === -1) {
-      if (copySquares[i].player !== turn) return -1;
+      if (copySquares[i].player !== turn) {
+        return -1;
+      }
 
       if (copySquares[i].player !== null) {
         copySquares = clearCheckHighlight(copySquares, white);
         copySquares[i].highlight = true;
 
         for (let j = 0; j < 64; j++) {
-          if (isMoveAvailable(i, j, copySquares))
+          if (isMoveAvailable(i, j, copySquares)) {
             copySquares[j].possible = true;
+          }
         }
 
         setSource(i);
@@ -471,35 +487,69 @@ export default function Board(): any {
   };
 
   const board = [];
-  for (let i = 0; i < 8; i++) {
-    const squareRows = [];
-    for (let j = 0; j < 8; j++) {
-      const copySquares = squares.slice();
-      let squareColor = calcSquareColor(i, j, copySquares);
-      let squareCursor = styles.pointer;
-      if (copySquares[i * 8 + j].player !== turn) {
-        squareCursor = styles.default;
-      }
 
-      if (mated) {
-        squareCursor = styles.default;
-      }
+  if (isWhite) {
+    for (let i = 0; i < 8; i++) {
+      const squareRows = [];
+      for (let j = 0; j < 8; j++) {
+        const copySquares = squares.slice();
+        let squareColor = calcSquareColor(i, j, copySquares);
+        let squareCursor = styles.pointer;
+        if (copySquares[i * 8 + j].player !== turn) {
+          squareCursor = styles.default;
+        }
 
-      if (historyNum - 1 !== turnNum) {
-        squareCursor = styles.not_allowed;
-      }
+        if (mated) {
+          squareCursor = styles.default;
+        }
 
-      squareRows.push(
-        <Square
-          value={copySquares[i * 8 + j]}
-          color={squareColor}
-          cursor={squareCursor}
-          onClick={() => handleClick(i * 8 + j)}
-          key={i * 8 + j}
-        />
-      );
+        if (historyNum - 1 !== turnNum) {
+          squareCursor = styles.not_allowed;
+        }
+
+        squareRows.push(
+          <Square
+            value={copySquares[i * 8 + j]}
+            color={squareColor}
+            cursor={squareCursor}
+            onClick={() => handleClick(i * 8 + j)}
+            key={i * 8 + j}
+          />
+        );
+      }
+      board.push(<div key={i + 64}>{squareRows}</div>);
     }
-    board.push(<div key={i + 64}>{squareRows}</div>);
+  } else {
+    for (let i = 7; i >= 0; i--) {
+      const squareRows = [];
+      for (let j = 7; j >= 0; j--) {
+        const copySquares = squares.slice();
+        let squareColor = calcSquareColor(i, j, copySquares);
+        let squareCursor = styles.pointer;
+        if (copySquares[i * 8 + j].player !== turn) {
+          squareCursor = styles.default;
+        }
+
+        if (mated) {
+          squareCursor = styles.default;
+        }
+
+        if (historyNum - 1 !== turnNum) {
+          squareCursor = styles.not_allowed;
+        }
+
+        squareRows.push(
+          <Square
+            value={copySquares[i * 8 + j]}
+            color={squareColor}
+            cursor={squareCursor}
+            onClick={() => handleClick(i * 8 + j)}
+            key={i * 8 + j}
+          />
+        );
+      }
+      board.push(<div key={i + 64}>{squareRows}</div>);
+    }
   }
 
   const viewHistory = (direction: any) => {
@@ -534,9 +584,13 @@ export default function Board(): any {
     );
 
     let index = null;
-    if (direction === back) index = historyNum - 2;
-    else if (direction === next) index = historyNum;
-    else if (direction === nextAtw) index = turnNum;
+    if (direction === back) {
+      index = historyNum - 2;
+    } else if (direction === next) {
+      index = historyNum;
+    } else if (direction === nextAtw) {
+      index = turnNum;
+    }
 
     if (index !== 0 && index != null) {
       if (historyH1[index] != null) {
@@ -550,8 +604,13 @@ export default function Board(): any {
     }
 
     let newHistoryNum = direction === back ? historyNum - 1 : historyNum + 1;
-    if (direction === backAtw) newHistoryNum = 1;
-    if (direction === nextAtw) newHistoryNum = turnNum + 1;
+    if (direction === backAtw) {
+      newHistoryNum = 1;
+    }
+
+    if (direction === nextAtw) {
+      newHistoryNum = turnNum + 1;
+    }
 
     setSquares(copySquares);
     setHistoryNum(newHistoryNum);
@@ -579,6 +638,9 @@ export default function Board(): any {
           next={() => viewHistory(next)}
           nextAtw={() => viewHistory(nextAtw)}
         />
+      </div>
+      <div>
+        <button onClick={() => setIsWhite(!isWhite)}>Reverse</button>
       </div>
     </div>
   );
