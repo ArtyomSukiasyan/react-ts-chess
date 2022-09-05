@@ -116,11 +116,12 @@ body {
 }
 
 .selected_square {
-  background-color: #16aad3;
+  background-color: #6c6f47;
 }
 
 .highlighted_square {
-  background-color: #a1d890;
+  background-color: #8c966f;
+  cursor: pointer;
 }
 
 .in_check_square {
