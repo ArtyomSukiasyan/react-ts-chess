@@ -1,4 +1,6 @@
-export default function clearHighlight(squares: any[]): any[] {
+import { IPiece } from "../models/Piece";
+
+export default function clearHighlight(squares: IPiece[]): IPiece[] {
   const copySquares = squares.slice();
 
   for (let j = 0; j < 64; j++) {
