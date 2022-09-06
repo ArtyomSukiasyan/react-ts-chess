@@ -7,11 +7,12 @@ import {
   selectedSquare,
   whiteSquare,
 } from "../constants/squares";
+import { IPiece } from "../models/Piece";
 
 export default function calcSquareColor(
   i: number,
   j: number,
-  squares: any[]
+  squares: IPiece[]
 ): string {
   const isKing =
     squares[i * 8 + j].ascii === whiteKing ||
