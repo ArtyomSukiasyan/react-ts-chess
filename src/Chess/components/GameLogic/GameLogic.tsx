@@ -398,7 +398,7 @@ export default function Board(): any {
   );
 
   const viewHistory = (direction: any) => {
-    let copySquares = null;
+    let copySquares = squares;
 
     if (direction === backAtw) {
       copySquares = history[0].slice();

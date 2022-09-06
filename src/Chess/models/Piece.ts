@@ -5,5 +5,5 @@ export interface IPiece {
   player: string;
   possible: boolean;
   inCheck?: boolean;
-  checked?: 1 | 2;
+  checked?: number;
 }
