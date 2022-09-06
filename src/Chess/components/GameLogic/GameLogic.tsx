@@ -40,10 +40,12 @@ export default function Board(): any {
   const [passantPosition, setPassantPosition] = useState(65);
   const [history, setHistory] = useState([initializeBoard()]);
   const [historyNum, setHistoryNum] = useState(1);
-  const [historyH1, setHistoryH1] = useState<any>([null]);
-  const [historyH2, setHistoryH2] = useState<any>([null]);
-  const [historyH3, setHistoryH3] = useState<any>([null]);
-  const [historyH4, setHistoryH4] = useState<any>([null]);
+  const [histories, setHistories] = useState<any>({
+    historyH1: [null],
+    historyH2: [null],
+    historyH3: [null],
+    historyH4: [null],
+  });
   const [mated, setMated] = useState(false);
   const [isWhite, setIsWhite] = useState(true);
 
@@ -63,10 +65,12 @@ export default function Board(): any {
     setPassantPosition(65);
     setHistory([initializeBoard()]);
     setHistoryNum(1);
-    setHistoryH1([null]);
-    setHistoryH2([null]);
-    setHistoryH3([null]);
-    setHistoryH4([null]);
+    setHistories({
+      historyH1: [null],
+      historyH2: [null],
+      historyH3: [null],
+      historyH4: [null],
+    });
     setMated(false);
   };
 
@@ -145,10 +149,10 @@ export default function Board(): any {
     }
 
     const copyHistory = history.slice();
-    const copyHistoryH1 = historyH1.slice();
-    const copyHistoryH2 = historyH2.slice();
-    const copyHistoryH3 = historyH3.slice();
-    const copyHistoryH4 = historyH4.slice();
+    const copyHistoryH1 = histories.historyH1.slice();
+    const copyHistoryH2 = histories.historyH2.slice();
+    const copyHistoryH3 = histories.historyH3.slice();
+    const copyHistoryH4 = histories.historyH4.slice();
     copyHistory.push(copySquares);
     copyHistoryH1.push(start);
     copyHistoryH2.push(end);
@@ -180,10 +184,12 @@ export default function Board(): any {
     setPassantPosition(passant);
     setHistory(copyHistory);
     setHistoryNum(historyNum + 1);
-    setHistoryH1(copyHistoryH1);
-    setHistoryH2(copyHistoryH2);
-    setHistoryH3(copyHistoryH3);
-    setHistoryH4(copyHistoryH4);
+    setHistories({
+      historyH1: copyHistoryH1,
+      historyH2: copyHistoryH2,
+      historyH3: copyHistoryH3,
+      historyH4: copyHistoryH4,
+    });
     setSquares(copySquares);
     setSource(-1);
     setTurnNum(turnNum + 1);
@@ -421,13 +427,13 @@ export default function Board(): any {
     }
 
     if (index !== 0 && index != null) {
-      if (historyH1[index] != null) {
-        copySquares[historyH1[index]].highlight = true;
-        copySquares[historyH2[index]].highlight = true;
+      if (histories.historyH1[index] != null) {
+        copySquares[histories.historyH1[index]].highlight = true;
+        copySquares[histories.historyH2[index]].highlight = true;
       }
-      if (historyH3[index] != null) {
-        copySquares[historyH3[index]].highlight = true;
-        copySquares[historyH4[index]].highlight = true;
+      if (histories.historyH3[index] != null) {
+        copySquares[histories.historyH3[index]].highlight = true;
+        copySquares[histories.historyH4[index]].highlight = true;
       }
     }
 
