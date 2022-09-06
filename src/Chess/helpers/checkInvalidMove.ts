@@ -19,12 +19,7 @@ export default function checkInvalidMove(
   end: any,
   squares: any,
   passantPosition: number,
-  whiteKingHasMoved: boolean,
-  blackKingHasMoved: boolean,
-  rightWhiteRookHasMoved: boolean,
-  leftWhiteRookHasMoved: boolean,
-  rightBlackRookHasMoved: boolean,
-  leftBlackRookHasMoved: boolean,
+  castlingConditions: any,
   passantPos?: number
 ) {
   const copySquares = squares.slice();
@@ -58,17 +53,7 @@ export default function checkInvalidMove(
   let king = copySquares[start].ascii.toLowerCase() === whiteKing;
 
   if (king && Math.abs(end - start) === 2) {
-    invalid = !castlingAllowed(
-      start,
-      end,
-      copySquares,
-      whiteKingHasMoved,
-      blackKingHasMoved,
-      rightWhiteRookHasMoved,
-      leftWhiteRookHasMoved,
-      rightBlackRookHasMoved,
-      leftBlackRookHasMoved
-    );
+    invalid = !castlingAllowed(start, end, copySquares, castlingConditions);
   }
 
   return invalid;

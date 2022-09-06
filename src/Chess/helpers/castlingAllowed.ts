@@ -5,12 +5,7 @@ export default function castlingAllowed(
   start: number,
   end: number,
   squares: any[],
-  whiteKingHasMoved: boolean,
-  blackKingHasMoved: boolean,
-  rightWhiteRookHasMoved: boolean,
-  leftWhiteRookHasMoved: boolean,
-  rightBlackRookHasMoved: boolean,
-  leftBlackRookHasMoved: boolean
+  castlingConditions: any
 ): boolean {
   const copySquares = squares.slice();
   let player = copySquares[start].player;
@@ -29,21 +24,27 @@ export default function castlingAllowed(
     return false;
   }
 
-  if ((player === white ? whiteKingHasMoved : blackKingHasMoved) !== false) {
+  if (
+    (player === white
+      ? castlingConditions.whiteKingHasMoved
+      : castlingConditions.blackKingHasMoved) !== false
+  ) {
     return false;
   }
 
   if (player === white) {
     if (
-      (deltaPos === 2 ? rightWhiteRookHasMoved : leftWhiteRookHasMoved) !==
-      false
+      (deltaPos === 2
+        ? castlingConditions.rightWhiteRookHasMoved
+        : castlingConditions.leftWhiteRookHasMoved) !== false
     ) {
       return false;
     }
   } else if (player === black) {
     if (
-      (deltaPos === 2 ? rightBlackRookHasMoved : leftBlackRookHasMoved) !==
-      false
+      (deltaPos === 2
+        ? castlingConditions.rightBlackRookHasMoved
+        : castlingConditions.leftBlackRookHasMoved) !== false
     ) {
       return false;
     }

@@ -31,12 +31,14 @@ export default function Board(): any {
   const [turn, setTurn] = useState(white);
   const [trueTurn, setTrueTurn] = useState(white);
   const [turnNum, setTurnNum] = useState(0);
-  const [whiteKingHasMoved, setWhiteKingHasMoved] = useState(false);
-  const [blackKingHasMoved, setBlackKingHasMoved] = useState(false);
-  const [leftBlackRookHasMoved, setLeftBlackRookHasMoved] = useState(false);
-  const [rightBlackRookHasMoved, setRightBlackRookHasMoved] = useState(false);
-  const [leftWhiteRookHasMoved, setLeftWhiteRookHasMoved] = useState(false);
-  const [rightWhiteRookHasMoved, setRightWhiteRookHasMoved] = useState(false);
+  const [castlingConditions, setCastlingConditions] = useState({
+    whiteKingHasMoved: false,
+    blackKingHasMoved: false,
+    leftBlackRookHasMoved: false,
+    rightBlackRookHasMoved: false,
+    leftWhiteRookHasMoved: false,
+    rightWhiteRookHasMoved: false,
+  });
   const [passantPosition, setPassantPosition] = useState(65);
   const [history, setHistory] = useState([initializeBoard()]);
   const [historyNum, setHistoryNum] = useState(1);
@@ -56,12 +58,14 @@ export default function Board(): any {
     setTurn(white);
     setTrueTurn(white);
     setTurnNum(0);
-    setWhiteKingHasMoved(false);
-    setBlackKingHasMoved(false);
-    setLeftBlackRookHasMoved(false);
-    setRightBlackRookHasMoved(false);
-    setLeftWhiteRookHasMoved(false);
-    setRightWhiteRookHasMoved(false);
+    setCastlingConditions({
+      whiteKingHasMoved: false,
+      blackKingHasMoved: false,
+      leftBlackRookHasMoved: false,
+      rightBlackRookHasMoved: false,
+      leftWhiteRookHasMoved: false,
+      rightWhiteRookHasMoved: false,
+    });
     setPassantPosition(65);
     setHistory([initializeBoard()]);
     setHistoryNum(1);
@@ -95,9 +99,15 @@ export default function Board(): any {
       copySquares[start].ascii === (player === white ? whiteKing : blackKing)
     ) {
       if (player === white) {
-        setWhiteKingHasMoved(true);
+        setCastlingConditions((prevState) => ({
+          ...prevState,
+          whiteKingHasMoved: true,
+        }));
       } else {
-        setBlackKingHasMoved(true);
+        setCastlingConditions((prevState) => ({
+          ...prevState,
+          blackKingHasMoved: true,
+        }));
       }
     }
     if (
@@ -105,15 +115,27 @@ export default function Board(): any {
     ) {
       if (start === (player === white ? 56 : 0)) {
         if (player === white) {
-          setLeftWhiteRookHasMoved(true);
+          setCastlingConditions((prevState) => ({
+            ...prevState,
+            leftWhiteRookHasMoved: true,
+          }));
         } else {
-          setLeftBlackRookHasMoved(true);
+          setCastlingConditions((prevState) => ({
+            ...prevState,
+            leftBlackRookHasMoved: true,
+          }));
         }
       } else if (start === (player === white ? 63 : 7)) {
         if (player === white) {
-          setRightWhiteRookHasMoved(true);
+          setCastlingConditions((prevState) => ({
+            ...prevState,
+            rightWhiteRookHasMoved: true,
+          }));
         } else {
-          setRightBlackRookHasMoved(true);
+          setCastlingConditions((prevState) => ({
+            ...prevState,
+            rightBlackRookHasMoved: true,
+          }));
         }
       }
     }
@@ -219,12 +241,7 @@ export default function Board(): any {
         end,
         copySquares,
         passantPosition,
-        whiteKingHasMoved,
-        blackKingHasMoved,
-        rightWhiteRookHasMoved,
-        leftWhiteRookHasMoved,
-        rightBlackRookHasMoved,
-        leftBlackRookHasMoved,
+        castlingConditions,
         passantPos
       )
     )
@@ -284,12 +301,7 @@ export default function Board(): any {
             positionOfKing,
             copySquares,
             passantPosition,
-            whiteKingHasMoved,
-            blackKingHasMoved,
-            rightWhiteRookHasMoved,
-            leftWhiteRookHasMoved,
-            rightBlackRookHasMoved,
-            leftBlackRookHasMoved
+            castlingConditions
           )
         )
           return true;
