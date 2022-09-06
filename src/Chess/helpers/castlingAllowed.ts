@@ -1,26 +1,29 @@
 import { blackRook, whiteRook } from "../constants/asciis";
-import { black, white } from "../constants/players";
+import { white } from "../constants/players";
+import { ICastlingConditions } from "../models/CastlingConditions";
+import { IPiece } from "../models/Piece";
 
 export default function castlingAllowed(
-  start: number,
-  end: number,
-  squares: any[],
-  castlingConditions: any
+  startPosition: number,
+  endPosition: number,
+  squares: IPiece[],
+  castlingConditions: ICastlingConditions
 ): boolean {
-  const copySquares = squares.slice();
-  let player = copySquares[start].player;
-  let deltaPos = end - start;
+  let player = squares[startPosition].player;
+  const kingDefaultPosition = player === white ? 60 : 4;
 
-  if (start !== (player === white ? 60 : 4)) {
+  if (startPosition !== kingDefaultPosition) {
     return false;
   }
 
-  if (
-    (deltaPos === 2
-      ? copySquares[end + 1].ascii
-      : copySquares[end - 2].ascii) !==
-    (player === white ? whiteRook : blackRook)
-  ) {
+  const deltaPos = endPosition - startPosition;
+  const rookASCII = player === white ? whiteRook : blackRook;
+  const kingASCII =
+    deltaPos === 2
+      ? squares[endPosition + 1].ascii
+      : squares[endPosition - 2].ascii;
+
+  if (kingASCII !== rookASCII) {
     return false;
   }
 
@@ -40,7 +43,7 @@ export default function castlingAllowed(
     ) {
       return false;
     }
-  } else if (player === black) {
+  } else {
     if (
       (deltaPos === 2
         ? castlingConditions.rightBlackRookHasMoved
