@@ -20,7 +20,7 @@ export default function checkInvalidMove(
   squares: any,
   passantPosition: number,
   castlingConditions: any,
-  passantPos?: number
+  passantPos: number
 ) {
   const copySquares = squares.slice();
   let bqrpk =

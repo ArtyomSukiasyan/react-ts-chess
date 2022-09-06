@@ -242,7 +242,7 @@ export default function Board(): any {
         copySquares,
         passantPosition,
         castlingConditions,
-        passantPos
+        passantPosition
       )
     )
       return false;
@@ -301,7 +301,8 @@ export default function Board(): any {
             positionOfKing,
             copySquares,
             passantPosition,
-            castlingConditions
+            castlingConditions,
+            passantPosition
           )
         )
           return true;
