@@ -1,12 +1,13 @@
 import { white } from "../constants/players";
 import { whiteKing, blackKing } from "../constants/asciis";
+import { IPiece } from "../models/Piece";
 
 export default function highlightMate(
-  player: any,
-  squares: any[],
+  player: string,
+  squares: IPiece[],
   checkMated: boolean,
   staleMated: boolean
-): any[] {
+): IPiece[] {
   const copySquares = squares.slice();
 
   if (checkMated || staleMated) {

@@ -4,5 +4,6 @@ export interface IPiece {
   icon: string;
   player: string;
   possible: boolean;
-  inCheck?: boolean
+  inCheck?: boolean;
+  checked?: 1 | 2;
 }
