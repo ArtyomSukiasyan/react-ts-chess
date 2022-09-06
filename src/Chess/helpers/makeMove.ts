@@ -5,6 +5,7 @@ import {
   whitePawn,
 } from "../constants/asciis";
 import { black, white } from "../constants/players";
+import { IPiece } from "../models/Piece";
 import Bishop from "../pieces/Bishop/Bishop";
 import FillerPiece from "../pieces/FillerPiece/FillerPiece";
 import Knight from "../pieces/Knight/Knight";
@@ -12,16 +13,17 @@ import Queen from "../pieces/Queen/Queen";
 import Rook from "../pieces/Rook/Rook";
 
 export default function makeMove(
-  squares: any,
+  squares: IPiece[],
   start: number,
   end: number,
   passantPosition: number,
   passantPos?: number
-) {
+): IPiece[] {
   const copySquares = squares.slice();
-  let isKing =
-    copySquares[start].ascii === whiteKing ||
-    copySquares[start].ascii === blackKing;
+  const isWhiteKing = copySquares[start].ascii === whiteKing;
+  const isBlackKing = copySquares[start].ascii === blackKing;
+  const isKing = isWhiteKing || isBlackKing;
+
   if (isKing && Math.abs(end - start) === 2) {
     if (end === (copySquares[start].ascii === whiteKing ? 62 : 6)) {
       copySquares[end - 1] = copySquares[end + 1];
@@ -37,12 +39,15 @@ export default function makeMove(
   }
 
   let passant = passantPos == null ? passantPosition : passantPos;
+
   if (
     copySquares[start].ascii === whitePawn ||
     copySquares[start].ascii === blackPawn
   ) {
     if (end - start === -7 || end - start === 9) {
-      if (start + 1 === passant) copySquares[start + 1] = new FillerPiece(null);
+      if (start + 1 === passant) {
+        copySquares[start + 1] = new FillerPiece(null);
+      }
     } else if (end - start === -9 || end - start === 7) {
       if (start - 1 === passant) copySquares[start - 1] = new FillerPiece(null);
     }
@@ -66,12 +71,15 @@ export default function makeMove(
     } else if (figure === "knight") {
       copySquares[end] = new Knight(white);
     }
+
     copySquares[end].highlight = true;
   }
+
   if (copySquares[end].ascii === blackPawn && end >= 56 && end <= 63) {
     const figure = prompt(
       "please, select 'queen', 'rook', 'bishop' or 'knight'"
     );
+
     if (figure === "queen") {
       copySquares[end] = new Queen(black);
     } else if (figure === "rook") {
@@ -81,7 +89,9 @@ export default function makeMove(
     } else if (figure === "knight") {
       copySquares[end] = new Knight(black);
     }
+
     copySquares[end].highlight = true;
   }
+
   return copySquares;
 }
