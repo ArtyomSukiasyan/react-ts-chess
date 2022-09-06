@@ -1,8 +1,10 @@
+import { IPiece } from "../models/Piece";
+
 export default function checkStaleMate(
-  player: any,
-  squares: any,
-  isCheck: any,
-  isMoveAvailable: any
+  player: string,
+  squares: IPiece[],
+  isCheck: Function,
+  isMoveAvailable: Function
 ) {
   if (isCheck(player, squares)) {
     return false;
