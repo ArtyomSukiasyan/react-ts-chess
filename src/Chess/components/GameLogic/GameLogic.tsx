@@ -283,7 +283,7 @@ export default function Board(): any {
 
   const isCheck = (player: any, squares: any[]) => {
     let king = player === white ? whiteKing : blackKing;
-    let positionOfKing = null;
+    let positionOfKing = -1;
     const copySquares = squares.slice();
     for (let i = 0; i < 64; i++) {
       if (copySquares[i].ascii === king) {
