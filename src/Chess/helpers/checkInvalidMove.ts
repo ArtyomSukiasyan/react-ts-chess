@@ -10,18 +10,20 @@ import {
   whiteQueen,
   whiteRook,
 } from "../constants/asciis";
+import { ICastlingConditions } from "../models/CastlingConditions";
+import { IPiece } from "../models/Piece";
 import blockersExist from "./blockerExist";
 import canEnpassant from "./canEnpassant";
 import castlingAllowed from "./castlingAllowed";
 
 export default function checkInvalidMove(
   start: number,
-  end: any,
-  squares: any,
+  end: number,
+  squares: IPiece[],
   passantPosition: number,
-  castlingConditions: any,
+  castlingConditions: ICastlingConditions,
   passantPos: number
-) {
+): boolean {
   const copySquares = squares.slice();
   let bqrpk =
     copySquares[start].ascii === whiteRook ||
@@ -43,6 +45,7 @@ export default function checkInvalidMove(
   let pawn =
     copySquares[start].ascii === whitePawn ||
     copySquares[start].ascii === blackPawn;
+
   invalid =
     pawn && !canEnpassant(start, end, copySquares, passantPosition, passantPos);
 
