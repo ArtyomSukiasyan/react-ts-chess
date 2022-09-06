@@ -1,7 +1,9 @@
+import { IPiece } from "../models/Piece";
+
 export default function blockersExist(
   start: number,
   end: number,
-  squares: any[]
+  squares: IPiece[]
 ): boolean {
   let startRow = 8 - Math.floor(start / 8);
   let startCol = (start % 8) + 1;
@@ -17,7 +19,7 @@ export default function blockersExist(
     let position = 64 - startRow * 8 + -8 * rowCtr + (startCol - 1 + colCtr);
 
     if (
-      copySquares[position].ascii != null &&
+      copySquares[position].ascii !== null &&
       copySquares[position] !== copySquares[start]
     ) {
       return true;
