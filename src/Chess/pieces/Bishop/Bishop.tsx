@@ -3,13 +3,13 @@ import { whiteBishop, blackBishop } from "../../constants/asciis";
 import styles from "../../Game.module.css";
 
 export default class Bishop {
-  player: any;
+  player: string;
   highlight: boolean;
   possible: boolean;
   icon: any;
-  ascii: any;
+  ascii: string;
 
-  constructor(player: any) {
+  constructor(player: string) {
     this.player = player;
     this.highlight = false;
     this.possible = false;
