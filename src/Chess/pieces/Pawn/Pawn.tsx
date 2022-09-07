@@ -3,11 +3,11 @@ import { whitePawn, blackPawn } from "../../constants/asciis";
 import styles from "../../Game.module.css";
 
 export default class Pawn {
-  player: any;
+  player: string;
   highlight: boolean;
   possible: boolean;
   icon: any;
-  ascii: any;
+  ascii: string;
 
   constructor(player: string) {
     this.player = player;
