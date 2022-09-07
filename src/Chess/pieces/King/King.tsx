@@ -3,15 +3,15 @@ import { whiteKing, blackKing } from "../../constants/asciis";
 import styles from "../../Game.module.css";
 
 export default class King {
-  player: any;
+  player: string;
   highlight: boolean;
   possible: boolean;
   icon: any;
-  ascii: any;
+  ascii: string;
   checked: boolean;
   inCheck: boolean;
 
-  constructor(player: any) {
+  constructor(player: string) {
     this.player = player;
     this.highlight = false;
     this.possible = false;
